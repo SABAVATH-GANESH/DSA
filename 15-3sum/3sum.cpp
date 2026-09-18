@@ -14,9 +14,13 @@ public:
                 if(total==0){
                     ans.push_back({nums[i],nums[j],nums[k]});
                     j++;
+                    k--;
                      while(nums[j]==nums[j-1] && j<k){
                     j++;
-                }
+                    }
+                    while(nums[j]==nums[j-1] && k>j){
+                       k--;
+                    }
                 }else if(total<0){
                     j++;
                 }else{
