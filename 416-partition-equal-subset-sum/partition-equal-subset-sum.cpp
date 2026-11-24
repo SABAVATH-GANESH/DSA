@@ -1,18 +1,21 @@
 class Solution {
 public:
-    bool sol(vector<int>& nums,int tot,int i,int val,vector<vector<int>>& dp){
-        if(tot-val==val) return true;
-        if(i>=nums.size() || tot-val < val) return false;
-        if(dp[val][i]!=-1) return dp[val][i];
-        bool take=sol(nums,tot,i+1,val+nums[i],dp);
-        bool skip=sol(nums,tot,i+1,val,dp);
-        return dp[val][i]=(take|skip);
+    bool sol(vector<int>& nums,int i,int val,int tot,vector<vector<int>>& dp){
+        if(i>=nums.size()){
+            if(tot-val==val) return true;
+            return false;
+        }
+        if(dp[i][val]!=-1) return dp[i][val];
+        bool take=sol(nums,i+1,val+nums[i],tot,dp);
+        bool skip=sol(nums,i+1,val,tot,dp);
+        return dp[i][val]=skip|take;
+
     }
     bool canPartition(vector<int>& nums) {
         int n=nums.size();
         int tot=accumulate(nums.begin(),nums.end(),0);
-        vector<vector<int>> dp(tot+1,vector<int>(n+1,-1));
-        return sol(nums,tot,0,0,dp);
+        vector<vector<int>> dp(n+1,vector<int>(tot+1,-1));
+        return sol(nums,0,0,tot,dp);
         
     }
 };
